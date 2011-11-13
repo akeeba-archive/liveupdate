@@ -33,7 +33,12 @@ class LiveUpdateView extends JView
 		
 		$extInfo = (object)$config->getExtensionInformation();
 		JToolBarHelper::title($extInfo->title.' &ndash; '.JText::_('LIVEUPDATE_TASK_OVERVIEW'),'liveupdate');
-		JToolBarHelper::back('AKEEBA_CONTROLPANEL', 'index.php?option='.JRequest::getCmd('option'));
+		if(version_compare(JVERSION,'1.6.0','ge')) {
+			$msg = 'JTOOLBAR_BACK';
+		} else {
+			$msg = 'Back';
+		}
+		JToolBarHelper::back($msg, 'index.php?option='.JRequest::getCmd('option',''));
 		
 		switch(JRequest::getCmd('task','default'))
 		{

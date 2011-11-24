@@ -35,11 +35,25 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		
 		jimport('joomla.html.parameter');
 		jimport('joomla.application.component.helper');
-		$component =& JComponentHelper::getComponent(self::$component);
-		if(!($component->params instanceof JRegistry)) {
-			$params = new JParameter($component->params);
+		// Not using JComponentHelper to avoid conflicts ;)
+		$db = JFactory::getDbo();
+		if( version_compare(JVERSION,'1.6.0','ge') ) {
+			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__extensions').
+				' WHERE '.$db->nameQuote('type').' = '.$db->Quote('component').' AND '.
+				$db->nameQuote('element').' = '.$db->Quote($this->_extensionName);
+			$db->setQuery($sql);
 		} else {
-			$params = $component->params;
+			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__components').
+				' WHERE '.$db->nameQuote('option').' = '.$db->Quote($this->_extensionName).
+				" AND `parent` = 0 AND `menuid` = 0";
+			$db->setQuery($sql);
+		}
+		$rawparams = $db->loadResult();
+		if(version_compare(JVERSION, '1.6.0', 'ge')) {
+			$params = new JRegistry();
+			$params->loadJSON($rawparams);
+		} else {
+			$params = new JParameter($rawparams);
 		}
 		$data = $params->getValue(self::$key, '');
 				

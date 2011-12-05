@@ -166,7 +166,9 @@ class LiveUpdateFetch extends JObject
 			'version'		=> '',
 			'date'			=> '',
 			'stability'		=> '',
-			'downloadURL'	=> ''
+			'downloadURL'	=> '',
+			'infoURL'		=> '',
+			'releasenotes'	=> ''
 		);
 		
 		// If the process is marked as "stuck", we won't bother fetching data again; well,
@@ -257,7 +259,9 @@ class LiveUpdateFetch extends JObject
 			'version'		=> '',
 			'date'			=> '',
 			'stability'		=> '',
-			'downloadURL'	=> ''
+			'downloadURL'	=> '',
+			'infoURL'		=> '',
+			'releasenotes'	=> ''
 		);
 		
 		// Get the magic string
@@ -299,6 +303,14 @@ class LiveUpdateFetch extends JObject
 			}
 		}
 		$ret['stability'] = $stability;
+		
+		if(array_key_exists('releasenotes', $iniData)) {
+			$ret['releasenotes'] = $iniData['releasenotes'];
+		}
+		
+		if(array_key_exists('infourl', $iniData)) {
+			$ret['infoURL'] = $iniData['infourl'];
+		}
 
 		return $ret;
 	}

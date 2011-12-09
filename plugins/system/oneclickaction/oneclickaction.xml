@@ -40,5 +40,9 @@
 		<language tag="tr-TR">tr-TR.plg_system_oneclickaction.sys.ini</language>
 		<language tag="uk-UA">uk-UA.plg_system_oneclickaction.ini</language>
 		<language tag="uk-UA">uk-UA.plg_system_oneclickaction.sys.ini</language>
+		<language tag="zh-CN">zh-CN.plg_system_oneclickaction.ini</language>
+		<language tag="zh-CN">zh-CN.plg_system_oneclickaction.sys.ini</language>
+		<language tag="zh-TW">zh-TW.plg_system_oneclickaction.ini</language>
+		<language tag="zh-TW">zh-TW.plg_system_oneclickaction.sys.ini</language>
 	</languages>
 </install>

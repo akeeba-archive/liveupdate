@@ -20,37 +20,6 @@ if(defined('PHP_VERSION')) {
 }
 if(!version_compare($version, '5.0.0', '>=')) return;
 
-// Check for Akeeba Backup Professional
-// If this is not the Professional release, bail out. So far I have only
-// received complaints about this feature from users of the Core release
-// who never bothered to read the documentation. FINE! If you are bitching
-// about it, you don't get this feature (unless you are a developer who can
-// come here and edit the code). Fair enough.
-
-// Make sure Akeeba Backup is installed
-if(!file_exists(JPATH_ADMINISTRATOR.'/components/com_akeeba')) {
-	return;
-}
-
-jimport('joomla.filesystem.file');
-$db = JFactory::getDBO();
-
-// Is Akeeba Backup enabled?
-if(version_compare(JVERSION, '1.6.0', 'ge')) {
-	$db->setQuery('SELECT `enabled` FROM `#__extensions` WHERE `element` = "com_akeeba" AND `type` = "component"');
-	$enabled = $db->loadResult();
-} else {
-	$db->setQuery('SELECT `enabled` FROM `#__components` WHERE `link` = "option=com_akeeba"');
-	$enabled = $db->loadResult();
-}
-if(!$enabled) return;
-
-// Is it the Pro release?
-include_once JPATH_ADMINISTRATOR.'/components/com_akeeba/version.php';
-
-if(!defined('AKEEBA_PRO')) return;
-if(!AKEEBA_PRO) return;
-
 jimport('joomla.application.plugin');
 
 class plgSystemOneclickaction extends JPlugin

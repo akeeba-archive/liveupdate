@@ -13,36 +13,36 @@
 	<files>
 		<filename plugin="oneclickaction">oneclickaction.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_system_oneclickaction.ini</language>
-		<language tag="en-GB">en-GB.plg_system_oneclickaction.sys.ini</language>
-		<language tag="da-DK">da-DK.plg_system_oneclickaction.ini</language>
-		<language tag="da-DK">da-DK.plg_system_oneclickaction.sys.ini</language>
-		<language tag="de-DE">de-DE.plg_system_oneclickaction.ini</language>
-		<language tag="de-DE">de-DE.plg_system_oneclickaction.sys.ini</language>
-		<language tag="es-ES">es-ES.plg_system_oneclickaction.ini</language>
-		<language tag="es-ES">es-ES.plg_system_oneclickaction.sys.ini</language>
-		<language tag="el-GR">el-GR.plg_system_oneclickaction.ini</language>
-		<language tag="el-GR">el-GR.plg_system_oneclickaction.sys.ini</language>
-		<language tag="fr-FR">fr-FR.plg_system_oneclickaction.ini</language>
-		<language tag="fr-FR">fr-FR.plg_system_oneclickaction.sys.ini</language>
-		<language tag="it-IT">it-IT.plg_system_oneclickaction.ini</language>
-		<language tag="it-IT">it-IT.plg_system_oneclickaction.sys.ini</language>
-		<language tag="nb-NO">nb-NO.plg_system_oneclickaction.ini</language>
-		<language tag="nb-NO">nb-NO.plg_system_oneclickaction.sys.ini</language>
-		<language tag="nl-NL">nl-NL.plg_system_oneclickaction.ini</language>
-		<language tag="nl-NL">nl-NL.plg_system_oneclickaction.sys.ini</language>
-		<language tag="pl-PL">pl-PL.plg_system_oneclickaction.ini</language>
-		<language tag="pl-PL">pl-PL.plg_system_oneclickaction.sys.ini</language>
-		<language tag="pt-BR">pt-BR.plg_system_oneclickaction.ini</language>
-		<language tag="pt-BR">pt-BR.plg_system_oneclickaction.sys.ini</language>
-		<language tag="tr-TR">tr-TR.plg_system_oneclickaction.ini</language>
-		<language tag="tr-TR">tr-TR.plg_system_oneclickaction.sys.ini</language>
-		<language tag="uk-UA">uk-UA.plg_system_oneclickaction.ini</language>
-		<language tag="uk-UA">uk-UA.plg_system_oneclickaction.sys.ini</language>
-		<language tag="zh-CN">zh-CN.plg_system_oneclickaction.ini</language>
-		<language tag="zh-CN">zh-CN.plg_system_oneclickaction.sys.ini</language>
-		<language tag="zh-TW">zh-TW.plg_system_oneclickaction.ini</language>
-		<language tag="zh-TW">zh-TW.plg_system_oneclickaction.sys.ini</language>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_oneclickaction.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_oneclickaction.sys.ini</language>
+		<language tag="da-DK">da-DK/da-DK.plg_system_oneclickaction.ini</language>
+		<language tag="da-DK">da-DK/da-DK.plg_system_oneclickaction.sys.ini</language>
+		<language tag="da-DK">da-DK/de-DE.plg_system_oneclickaction.ini</language>
+		<language tag="de-DE">da-DK/de-DE.plg_system_oneclickaction.sys.ini</language>
+		<language tag="es-ES">es-ES/es-ES.plg_system_oneclickaction.ini</language>
+		<language tag="es-ES">es-ES/es-ES.plg_system_oneclickaction.sys.ini</language>
+		<language tag="el-GR">el-GR/el-GR.plg_system_oneclickaction.ini</language>
+		<language tag="el-GR">el-GR/el-GR.plg_system_oneclickaction.sys.ini</language>
+		<language tag="fr-FR">fr-FR/fr-FR.plg_system_oneclickaction.ini</language>
+		<language tag="fr-FR">fr-FR/fr-FR.plg_system_oneclickaction.sys.ini</language>
+		<language tag="it-IT">it-IT/it-IT.plg_system_oneclickaction.ini</language>
+		<language tag="it-IT">it-IT/it-IT.plg_system_oneclickaction.sys.ini</language>
+		<language tag="nb-NO">nb-NO/nb-NO.plg_system_oneclickaction.ini</language>
+		<language tag="nb-NO">nb-NO/nb-NO.plg_system_oneclickaction.sys.ini</language>
+		<language tag="nl-NL">nl-NL/nl-NL.plg_system_oneclickaction.ini</language>
+		<language tag="nl-NL">nl-NL/nl-NL.plg_system_oneclickaction.sys.ini</language>
+		<language tag="pl-PL">pl-PL/pl-PL.plg_system_oneclickaction.ini</language>
+		<language tag="pl-PL">pl-PL/pl-PL.plg_system_oneclickaction.sys.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.plg_system_oneclickaction.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.plg_system_oneclickaction.sys.ini</language>
+		<language tag="tr-TR">tr-TR/tr-TR.plg_system_oneclickaction.ini</language>
+		<language tag="tr-TR">tr-TR/tr-TR.plg_system_oneclickaction.sys.ini</language>
+		<language tag="uk-UA">uk-UA/uk-UA.plg_system_oneclickaction.ini</language>
+		<language tag="uk-UA">uk-UA/uk-UA.plg_system_oneclickaction.sys.ini</language>
+		<language tag="zh-CN">zh-CN/zh-CN.plg_system_oneclickaction.ini</language>
+		<language tag="zh-CN">zh-CN/zh-CN.plg_system_oneclickaction.sys.ini</language>
+		<language tag="zh-TW">zh-TW/zh-TW.plg_system_oneclickaction.ini</language>
+		<language tag="zh-TW">zh-TW/zh-TW.plg_system_oneclickaction.sys.ini</language>
 	</languages>
 </install>

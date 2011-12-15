@@ -38,16 +38,17 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		// Not using JComponentHelper to avoid conflicts ;)
 		$db = JFactory::getDbo();
 		if( version_compare(JVERSION,'1.6.0','ge') ) {
-			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__extensions').
-				' WHERE '.$db->nameQuote('type').' = '.$db->Quote('component').' AND '.
-				$db->nameQuote('element').' = '.$db->Quote($this->_extensionName);
-			$db->setQuery($sql);
+			$sql = $db->getQuery(true)
+				->select($db->nq('params'))
+				->from($db->nq('#__extensions'))
+				->where($db->nq('type').' = '.$db->q('component'))
+				->where($db->nq('element').' = '.$db->q(self::$component));
 		} else {
 			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__components').
-				' WHERE '.$db->nameQuote('option').' = '.$db->Quote($this->_extensionName).
+				' WHERE '.$db->nameQuote('option').' = '.$db->Quote(self::$component).
 				" AND `parent` = 0 AND `menuid` = 0";
-			$db->setQuery($sql);
 		}
+		$db->setQuery($sql);
 		$rawparams = $db->loadResult();
 		if(version_compare(JVERSION, '1.6.0', 'ge')) {
 			$params = new JRegistry();
@@ -84,16 +85,17 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		*/
 
 		if( version_compare(JVERSION,'1.6.0','ge') ) {
-			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__extensions').
-				' WHERE '.$db->nameQuote('type').' = '.$db->Quote('component').' AND '.
-				$db->nameQuote('element').' = '.$db->Quote(self::$component);
-			$db->setQuery($sql);
+			$sql = $db->getQuery(true)
+				->select($db->nq('params'))
+				->from($db->nq('#__extensions'))
+				->where($db->nq('type').' = '.$db->q('component'))
+				->where($db->nq('element').' = '.$db->q(self::$component));
 		} else {
 			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__components').
 				' WHERE '.$db->nameQuote('option').' = '.$db->Quote(self::$component).
 				" AND `parent` = 0 AND `menuid` = 0";
-			$db->setQuery($sql);
 		}
+		$db->setQuery($sql);
 		$rawparams = $db->loadResult();
 		$params = new JRegistry();
 		if( version_compare(JVERSION,'1.6.0','ge') ) {
@@ -108,8 +110,11 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		{
 			// Joomla! 1.6
 			$data = $params->toString('JSON');
-			$sql = 'UPDATE `#__extensions` SET `params` = '.$db->Quote($data).' WHERE '.
-				"`element` = ".$db->Quote(self::$component)." AND `type` = 'component'";
+			$sql = $db->getQuery(true)
+				->update($db->nq('#__extensions'))
+				->set($db->nq('params').' = '.$db->q($data))
+				->where($db->nq('type').' = '.$db->q('component'))
+				->where($db->nq('element').' = '.$db->q(self::$component));
 		}
 		else
 		{

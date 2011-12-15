@@ -195,16 +195,17 @@ abstract class LiveUpdateAbstractConfig extends JObject
 		// Not using JComponentHelper to avoid conflicts ;)
 		$db = JFactory::getDbo();
 		if( version_compare(JVERSION,'1.6.0','ge') ) {
-			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__extensions').
-				' WHERE '.$db->nameQuote('type').' = '.$db->Quote('component').' AND '.
-				$db->nameQuote('element').' = '.$db->Quote($this->_extensionName);
-			$db->setQuery($sql);
+			$sql = $db->getQuery(true)
+				->select($db->nq('params'))
+				->from($db->nq('#__extensions'))
+				->where($db->nq('type').' = '.$db->q('component'))
+				->where($db->nq('element').' = '.$db->q($this->_extensionName));
 		} else {
 			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__components').
 				' WHERE '.$db->nameQuote('option').' = '.$db->Quote($this->_extensionName).
 				" AND `parent` = 0 AND `menuid` = 0";
-			$db->setQuery($sql);
 		}
+		$db->setQuery($sql);
 		$rawparams = $db->loadResult();
 		if(version_compare(JVERSION, '1.6.0', 'ge')) {
 			$params = new JRegistry();

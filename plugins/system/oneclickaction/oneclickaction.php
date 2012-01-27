@@ -64,7 +64,11 @@ class plgSystemOneclickaction extends JPlugin
 			$app = JFactory::getApplication();
 			$authenticate = JAuthentication::getInstance();
 			$response = new JAuthenticationResponse();
-			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+			if(defined('JAUTHENTICATE_STATUS_SUCCESS')) {
+				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+			} else {
+				$response->status = JAuthentication::STATUS_SUCCESS;
+			}
 			$response->type = 'joomla';
 			$response->username = $user->username;
 			$response->email = $user->email;
@@ -74,13 +78,17 @@ class plgSystemOneclickaction extends JPlugin
 			JPluginHelper::importPlugin('user');
 			$options = array();
 			
-			$session = &JFactory::getSession();
-			$session->fork();
+			if(version_compare(JVERSION,'2.5.0','lt')) {
+				$session = JFactory::getSession();
+				$session->fork();
+			}
 			
 			jimport('joomla.user.helper');
 			$results = $app->triggerEvent('onLoginUser', array((array)$response, $options));
-			$user = null;
-			$user = JFactory::getUser();
+			
+			if(version_compare(JVERSION,'1.7.0','ge')) {
+				JFactory::getSession()->set('user', $user);
+			}
 			
 			// Delete all similar OCA records
 			if(version_compare(JVERSION, '1.6.0', 'ge')) {
@@ -91,6 +99,7 @@ class plgSystemOneclickaction extends JPlugin
 				$sql = 'DELETE FROM `#__oneclickaction_actions` WHERE `actionurl` = '.$db->quote($oca->actionurl);
 			}
 			$db->setQuery($sql);
+			// @todo REMOVE THIS LINE -- DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			$db->query();
 			
 			// Forward to the requested URL

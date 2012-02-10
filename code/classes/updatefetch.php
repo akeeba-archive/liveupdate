@@ -114,6 +114,17 @@ class LiveUpdateFetch extends JObject
 		$this->storage = LiveUpdateStorage::getInstance($storageOptions['adapter'], $storageOptions['config']);
 		$storage = $this->storage;
 		
+		// If we are requested to forcibly reload the information, clear old data first
+		if($force) {
+			$this->storage->set('lastcheck', 0);
+			$this->storage->set('updatedata', '');
+			$this->storage->save();
+			$registry = $storage->getRegistry();
+			$registry->set('update.lastcheck', null);
+			$registry->set('update.updatedata', null);
+			$storage->setRegistry($registry);
+		}
+		
 		// Fetch information from the cache
 		if(version_compare(JVERSION, '1.6.0', 'ge')) {
 			$registry = $storage->getRegistry();

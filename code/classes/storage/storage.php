@@ -43,11 +43,21 @@ class LiveUpdateStorage
 		return $instances[$sig];
 	}
 	
+	/**
+	 * Returns the internally used registry
+	 * 
+	 * @return JRegistry
+	 */
 	public function &getRegistry()
 	{
 		return self::$registry;
 	}
 	
+	/**
+	 * Replaces the internally used registry with the one supplied
+	 * 
+	 * @param JRegistry $registry 
+	 */
 	public function setRegistry($registry)
 	{
 		self::$registry = $registry;

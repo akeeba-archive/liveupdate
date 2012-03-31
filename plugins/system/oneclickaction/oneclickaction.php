@@ -99,7 +99,6 @@ class plgSystemOneclickaction extends JPlugin
 				$sql = 'DELETE FROM `#__oneclickaction_actions` WHERE `actionurl` = '.$db->quote($oca->actionurl);
 			}
 			$db->setQuery($sql);
-			// @todo REMOVE THIS LINE -- DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			$db->query();
 			
 			// Forward to the requested URL
@@ -178,6 +177,8 @@ class plgSystemOneclickaction extends JPlugin
 	 */
 	private static function _checkInstallation()
 	{
+		if(!$this->isMySQL()) return false;
+		
 		// @todo Move the SQL to the plugin package and do not run this on Joomla! 1.6 or later
 		$db = JFactory::getDBO();
 		$db->setQuery('DESCRIBE #__oneclickaction_actions');
@@ -216,5 +217,11 @@ ENDSQL;
 		}
 		$db->setQuery($sql);
 		$db->query();
+	}
+	
+	private function isMySQL()
+	{
+		$db = JFactory::getDbo();
+		return strtolower($db->name, 0, 5) == 'mysql';
 	}
 }

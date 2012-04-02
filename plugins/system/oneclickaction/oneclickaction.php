@@ -222,6 +222,6 @@ ENDSQL;
 	private function isMySQL()
 	{
 		$db = JFactory::getDbo();
-		return strtolower($db->name, 0, 5) == 'mysql';
+		return strtolower(substr($db->name, 0, 5)) == 'mysql';
 	}
 }

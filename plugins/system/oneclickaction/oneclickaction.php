@@ -177,7 +177,7 @@ class plgSystemOneclickaction extends JPlugin
 	 */
 	private static function _checkInstallation()
 	{
-		if(!$this->isMySQL()) return false;
+		if(self::isMySQL()) return false;
 		
 		// @todo Move the SQL to the plugin package and do not run this on Joomla! 1.6 or later
 		$db = JFactory::getDBO();
@@ -219,7 +219,7 @@ ENDSQL;
 		$db->query();
 	}
 	
-	private function isMySQL()
+	private static function isMySQL()
 	{
 		$db = JFactory::getDbo();
 		return strtolower(substr($db->name, 0, 5)) == 'mysql';

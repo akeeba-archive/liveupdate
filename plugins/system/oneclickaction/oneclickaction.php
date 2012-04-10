@@ -4,7 +4,7 @@
  * @subpackage OneClickAction
  * @copyright Copyright (c)2011-2012 Nicholas K. Dionysopoulos
  * @license GNU General Public License version 3, or later
- * @version $Id$
+ *
  * @since 3.3
  */
 

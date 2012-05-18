@@ -49,8 +49,8 @@ class plgSystemOneclickaction extends JPlugin
 			if(version_compare(JVERSION, '1.6.0', 'ge')) {
 				$sql = $db->getQuery(true)
 					->select('*')
-					->from($db->nq('#__oneclickaction_actions'))
-					->where($db->nq('otp').' = '.$db->q($otp));
+					->from($db->qn('#__oneclickaction_actions'))
+					->where($db->qn('otp').' = '.$db->q($otp));
 			} else {
 				$sql = 'SELECT * FROM `#__oneclickaction_actions` WHERE `otp` = '.$db->quote($otp);
 			}
@@ -93,8 +93,8 @@ class plgSystemOneclickaction extends JPlugin
 			// Delete all similar OCA records
 			if(version_compare(JVERSION, '1.6.0', 'ge')) {
 				$sql = $db->getQuery(true)
-					->delete($db->nq('#__oneclickaction_actions'))
-					->where($db->nq('actionurl').' = '.$db->q($oca->actionurl));
+					->delete($db->qn('#__oneclickaction_actions'))
+					->where($db->qn('actionurl').' = '.$db->q($oca->actionurl));
 			} else {
 				$sql = 'DELETE FROM `#__oneclickaction_actions` WHERE `actionurl` = '.$db->quote($oca->actionurl);
 			}
@@ -131,9 +131,9 @@ class plgSystemOneclickaction extends JPlugin
 		if(version_compare(JVERSION, '1.6.0', 'ge')) {
 			$sql = $db->getQuery(true)
 				->select('COUNT(*)')
-				->from($db->nq('#__oneclickaction_actions'))
-				->where($db->nq('actionurl').' = '.$db->q($actionurl))
-				->where($db->nq('userid').' = '.$db->q($userid));
+				->from($db->qn('#__oneclickaction_actions'))
+				->where($db->qn('actionurl').' = '.$db->q($actionurl))
+				->where($db->qn('userid').' = '.$db->q($userid));
 		} else {
 			$db->setQuery('SELECT COUNT(*) FROM `#__oneclickaction_actions` WHERE `actionurl` = '.$db->quote($actionurl).' AND `userid` = '.$db->quote($userid));
 		}
@@ -210,8 +210,8 @@ ENDSQL;
 		
 		if(version_compare(JVERSION, '1.6.0', 'ge')) {
 			$sql = $db->getQuery(true)
-				->delete($db->nq('#__oneclickaction_actions'))
-				->where($db->nq('expiry').' <= '.$now);
+				->delete($db->qn('#__oneclickaction_actions'))
+				->where($db->qn('expiry').' <= '.$now);
 		} else {
 			$sql = 'DELETE FROM `#__oneclickaction_actions` WHERE `expiry` <= '.$now;
 		}

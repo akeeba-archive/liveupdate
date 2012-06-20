@@ -52,11 +52,19 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		$rawparams = $db->loadResult();
 		if(version_compare(JVERSION, '1.6.0', 'ge')) {
 			$params = new JRegistry();
-			$params->loadJSON($rawparams);
+			if(version_compare(JVERSION, '3.0.0', 'ge')) {
+				$params->loadString($rawparams);
+			} else {
+				$params->loadJSON($rawparams);
+			}
 		} else {
 			$params = new JParameter($rawparams);
 		}
-		$data = $params->getValue(self::$key, '');
+		if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			$data = $params->get(self::$key, '');
+		} else {
+			$data = $params->getValue(self::$key, '');
+		}
 				
 		jimport('joomla.registry.registry');
 		self::$registry = new JRegistry('update');
@@ -99,12 +107,20 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		$rawparams = $db->loadResult();
 		$params = new JRegistry();
 		if( version_compare(JVERSION,'1.6.0','ge') ) {
-			$params->loadJSON($rawparams);
+			if(version_compare(JVERSION, '3.0.0', 'ge')) {
+				$params->loadString($rawparams);
+			} else {
+				$params->loadJSON($rawparams);
+			}
 		} else {
 			$params->loadINI($rawparams);
 		}
 		
-		$params->setValue(self::$key, $data);
+		if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			$params->set(self::$key, $data);
+		} else {
+			$params->setValue(self::$key, $data);
+		}
 		
 		if( version_compare(JVERSION,'1.6.0','ge') )
 		{

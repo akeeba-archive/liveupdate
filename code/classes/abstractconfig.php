@@ -209,14 +209,24 @@ abstract class LiveUpdateAbstractConfig extends JObject
 		$rawparams = $db->loadResult();
 		if(version_compare(JVERSION, '1.6.0', 'ge')) {
 			$params = new JRegistry();
-			$params->loadJSON($rawparams);
+			if(version_compare(JVERSION, '3.0.0', 'ge')) {
+				$params->loadString($rawparams);
+			} else {
+				$params->loadJSON($rawparams);
+			}
 		} else {
 			$params = new JParameter($rawparams);
 		}
 		
-		$this->_username	= $params->getValue('username','');
-		$this->_password	= $params->getValue('password','');
-		$this->_downloadID	= $params->getValue('downloadid','');
+		if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			$this->_username	= $params->get('username','');
+			$this->_password	= $params->get('password','');
+			$this->_downloadID	= $params->get('downloadid','');			
+		} else {
+			$this->_username	= $params->getValue('username','');
+			$this->_password	= $params->getValue('password','');
+			$this->_downloadID	= $params->getValue('downloadid','');
+		}
 	}
 	
 	public function applyCACert(&$ch)

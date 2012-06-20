@@ -75,12 +75,20 @@ class LiveUpdateStorage
 				$value = serialize($value);
 			}
 		}
-		self::$registry->setValue("update.$key", $value);
+		if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			self::$registry->set("update.$key", $value);
+		} else {
+			self::$registry->setValue("update.$key", $value);
+		}
 	}
 	
 	public final function get($key, $default)
 	{
-		$value = self::$registry->getValue("update.$key", $default);
+		if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			$value = self::$registry->get("update.$key", $default);
+		} else {
+			$value = self::$registry->getValue("update.$key", $default);
+		}
 		if($key == 'updatedata') {
 			if(function_exists('json_encode') && function_exists('json_decode')) {
 				$value = json_decode($value);

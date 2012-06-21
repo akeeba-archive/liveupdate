@@ -69,7 +69,11 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		jimport('joomla.registry.registry');
 		self::$registry = new JRegistry('update');
 		
-		self::$registry->loadINI($data);
+		if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			self::$registry->loadString($data, 'INI');
+		} else {
+			self::$registry->loadINI($data);
+		}
 	}
 	
 	public function save()

@@ -367,12 +367,24 @@ class LiveUpdateXMLSlurp extends JObject
 		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($path, '\.xml$', false, true);
 		if(!empty($files)) foreach($files as $filename) {
-			$xml = JFactory::getXMLParser('simple');
-			$result = $xml->loadFile($filename);
-			if(!$result) continue;
-			if(($xml->document->name() != 'install') && ($xml->document->name() != 'extension') && ($xml->document->name() != 'mosinstall')) continue;
-			unset($xml);
-			return $filename;
+			if(version_compare(JVERSION, '3.0.0', 'ge')) {
+				try {
+					$xml = new JXMLElement($filename, LIBXML_NONET, true);
+				} catch(Exception $e) {
+					continue;
+				}
+				if(($xml->getName() != 'extension')) continue;
+				unset($xml);
+				return $filename;
+				
+			} else {
+				$xml = JFactory::getXMLParser('simple');
+				$result = $xml->loadFile($filename);
+				if(!$result) continue;
+				if(($xml->document->name() != 'install') && ($xml->document->name() != 'extension') && ($xml->document->name() != 'mosinstall')) continue;
+				unset($xml);
+				return $filename;
+			}
 		}
 		
 		return false;

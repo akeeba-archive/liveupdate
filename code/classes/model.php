@@ -146,9 +146,12 @@ class LiveUpdateModel extends JModel
 		jimport('joomla.filesystem.file');
 		
 		$instModelFile = JPATH_ADMINISTRATOR.'/components/com_akeeba/models/installer.php';
+		if(!JFile::exists($instModelFile)) {
+			$instModelFile = JPATH_ADMINISTRATOR.'/components/com_akeeba/plugins/models/installer.php';
+		};
 		if(!JFile::exists($instModelFile)) return false;
 		
-		require_once JPATH_ADMINISTRATOR.'/components/com_akeeba/models/installer.php';
+		require_once $instModelFile;
 		$model	= JModel::getInstance('Installer', 'AkeebaModel');
 		$packageType = JInstallerHelper::detectType($tempdir);
 		$name = $model->getExtensionName($tempdir);

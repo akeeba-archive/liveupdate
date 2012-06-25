@@ -258,7 +258,7 @@ class LiveUpdateFetch extends JObject
 		$extInfo = $config->getExtensionInformation();
 		$url = $extInfo['updateurl'];
 		
-		return @file_get_contents($urls);
+		return @file_get_contents($url);
 	}
 	
 	/**

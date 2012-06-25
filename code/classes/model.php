@@ -157,7 +157,7 @@ class LiveUpdateModel extends JModel
 		$name = $model->getExtensionName($tempdir);
 		
 		$url = 'index.php?option=com_akeeba&view=backup&tag=restorepoint&type='.$packageType.'&name='.urlencode($name['name']);
-		switch($type) {
+		switch($packageType) {
 			case 'module':
 			case 'template':
 				$url .= '&group='.$name['client'];

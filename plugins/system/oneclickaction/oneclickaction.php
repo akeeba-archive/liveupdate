@@ -46,14 +46,10 @@ class plgSystemOneclickaction extends JPlugin
 			
 			// Make sure this OTP exists
 			$db = JFactory::getDBO();
-			if(version_compare(JVERSION, '1.6.0', 'ge')) {
-				$sql = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__oneclickaction_actions'))
-					->where($db->qn('otp').' = '.$db->q($otp));
-			} else {
-				$sql = 'SELECT * FROM `#__oneclickaction_actions` WHERE `otp` = '.$db->quote($otp);
-			}
+			$sql = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__oneclickaction_actions'))
+				->where($db->qn('otp').' = '.$db->q($otp));
 			$db->setQuery($sql);
 			$oca = $db->loadObject();
 			if(empty($oca)) return;
@@ -78,26 +74,15 @@ class plgSystemOneclickaction extends JPlugin
 			JPluginHelper::importPlugin('user');
 			$options = array();
 			
-			if(version_compare(JVERSION,'2.5.0','lt')) {
-				$session = JFactory::getSession();
-				$session->fork();
-			}
-			
 			jimport('joomla.user.helper');
 			$results = $app->triggerEvent('onLoginUser', array((array)$response, $options));
 			
-			if(version_compare(JVERSION,'1.7.0','ge')) {
-				JFactory::getSession()->set('user', $user);
-			}
+			JFactory::getSession()->set('user', $user);
 			
 			// Delete all similar OCA records
-			if(version_compare(JVERSION, '1.6.0', 'ge')) {
-				$sql = $db->getQuery(true)
-					->delete($db->qn('#__oneclickaction_actions'))
-					->where($db->qn('actionurl').' = '.$db->q($oca->actionurl));
-			} else {
-				$sql = 'DELETE FROM `#__oneclickaction_actions` WHERE `actionurl` = '.$db->quote($oca->actionurl);
-			}
+			$sql = $db->getQuery(true)
+				->delete($db->qn('#__oneclickaction_actions'))
+				->where($db->qn('actionurl').' = '.$db->q($oca->actionurl));
 			$db->setQuery($sql);
 			$db->query();
 			
@@ -128,15 +113,11 @@ class plgSystemOneclickaction extends JPlugin
 		$db = JFactory::getDBO();
 		
 		// Check that the action does not already exist
-		if(version_compare(JVERSION, '1.6.0', 'ge')) {
-			$sql = $db->getQuery(true)
-				->select('COUNT(*)')
-				->from($db->qn('#__oneclickaction_actions'))
-				->where($db->qn('actionurl').' = '.$db->q($actionurl))
-				->where($db->qn('userid').' = '.$db->q($userid));
-		} else {
-			$db->setQuery('SELECT COUNT(*) FROM `#__oneclickaction_actions` WHERE `actionurl` = '.$db->quote($actionurl).' AND `userid` = '.$db->quote($userid));
-		}
+		$sql = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->qn('#__oneclickaction_actions'))
+			->where($db->qn('actionurl').' = '.$db->q($actionurl))
+			->where($db->qn('userid').' = '.$db->q($userid));
 		$actionsCount = $db->loadResult();
 		if($actionsCount) return '';
 		
@@ -157,15 +138,10 @@ class plgSystemOneclickaction extends JPlugin
 		
 		
 		// If a DB error occurs, return null
-		if(version_compare(JVERSION, '1.6.0', 'ge')) {
-			try {
-				$db->query();
-			} catch (Exception $e) {
-				return null;
-			}
-		} else {
+		try {
 			$db->query();
-			if($db->getErrorNum()) return null;
+		} catch (Exception $e) {
+			return null;
 		}
 		
 		// All OK, return the OTP
@@ -208,13 +184,9 @@ ENDSQL;
 		$now = gmdate('Y-m-d H:i:s');
 		$now = $db->quote($now);
 		
-		if(version_compare(JVERSION, '1.6.0', 'ge')) {
-			$sql = $db->getQuery(true)
-				->delete($db->qn('#__oneclickaction_actions'))
-				->where($db->qn('expiry').' <= '.$now);
-		} else {
-			$sql = 'DELETE FROM `#__oneclickaction_actions` WHERE `expiry` <= '.$now;
-		}
+		$sql = $db->getQuery(true)
+			->delete($db->qn('#__oneclickaction_actions'))
+			->where($db->qn('expiry').' <= '.$now);
 		$db->setQuery($sql);
 		$db->query();
 	}

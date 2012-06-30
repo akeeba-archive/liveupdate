@@ -194,28 +194,18 @@ abstract class LiveUpdateAbstractConfig extends JObject
 		
 		// Not using JComponentHelper to avoid conflicts ;)
 		$db = JFactory::getDbo();
-		if( version_compare(JVERSION,'1.6.0','ge') ) {
-			$sql = $db->getQuery(true)
-				->select($db->qn('params'))
-				->from($db->qn('#__extensions'))
-				->where($db->qn('type').' = '.$db->q('component'))
-				->where($db->qn('element').' = '.$db->q($this->_extensionName));
-		} else {
-			$sql = 'SELECT '.$db->nameQuote('params').' FROM '.$db->nameQuote('#__components').
-				' WHERE '.$db->nameQuote('option').' = '.$db->Quote($this->_extensionName).
-				" AND `parent` = 0 AND `menuid` = 0";
-		}
+		$sql = $db->getQuery(true)
+			->select($db->qn('params'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type').' = '.$db->q('component'))
+			->where($db->qn('element').' = '.$db->q($this->_extensionName));
 		$db->setQuery($sql);
 		$rawparams = $db->loadResult();
-		if(version_compare(JVERSION, '1.6.0', 'ge')) {
-			$params = new JRegistry();
-			if(version_compare(JVERSION, '3.0.0', 'ge')) {
-				$params->loadString($rawparams);
-			} else {
-				$params->loadJSON($rawparams);
-			}
+		$params = new JRegistry();
+		if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			$params->loadString($rawparams);
 		} else {
-			$params = new JParameter($rawparams);
+			$params->loadJSON($rawparams);
 		}
 		
 		if(version_compare(JVERSION, '3.0.0', 'ge')) {

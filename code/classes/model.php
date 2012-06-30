@@ -113,11 +113,7 @@ class LiveUpdateModel extends JModel
 		if($packageType) {
 			$this->setState('name', $installer->get('name'));
 			$this->setState('message', $installer->message);
-			if(version_compare(JVERSION,'1.6.0','ge')) {
-				$this->setState('extmessage', $installer->get('extension_message'));
-			} else {
-				$this->setState('extmessage', $installer->get('extension.message'));
-			}
+			$this->setState('extmessage', $installer->get('extension_message'));
 		}
 		
 		return $result;

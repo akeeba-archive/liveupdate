@@ -33,11 +33,7 @@ class LiveUpdateView extends JView
 		
 		$extInfo = (object)$config->getExtensionInformation();
 		JToolBarHelper::title($extInfo->title.' &ndash; '.JText::_('LIVEUPDATE_TASK_OVERVIEW'),'liveupdate');
-		if(version_compare(JVERSION,'1.6.0','ge')) {
-			$msg = 'JTOOLBAR_BACK';
-		} else {
-			$msg = 'Back';
-		}
+		$msg = 'JTOOLBAR_BACK';
 		JToolBarHelper::back($msg, 'index.php?option='.JRequest::getCmd('option',''));
 		
 		switch(JRequest::getCmd('task','default'))

@@ -14,8 +14,6 @@ jimport('joomla.application.component.controller');
  */
 class LiveUpdateController extends JController
 {
-	private $jversion = '15';
-
 	/**
 	 * Object contructor 
 	 * @param array $config
@@ -26,17 +24,7 @@ class LiveUpdateController extends JController
 	{
 		parent::__construct();
 
-		// Do we have Joomla! 1.6?
-		if( version_compare( JVERSION, '1.6.0', 'ge' ) ) {
-			$this->jversion = '16';
-		}
-		
-		$basePath = dirname(__FILE__);
-		if($this->jversion == '15') {
-			$this->_basePath = $basePath;
-		} else {
-			$this->basePath = $basePath;
-		}
+		$this->basePath = $basePath;
 		
 		$this->registerDefaultTask('overview');
 	}
@@ -155,10 +143,8 @@ class LiveUpdateController extends JController
 			$this->redirect();
 		} else {
 			// Installation successful. Show the installation message.
-			if(version_compare(JVERSION,'1.6.0','ge')) {
-				$cache = JFactory::getCache('mod_menu');
-				$cache->clean();				
-			}
+			$cache = JFactory::getCache('mod_menu');
+			$cache->clean();				
 			
 			$this->display();
 		}
@@ -209,7 +195,7 @@ class LiveUpdateController extends JController
 		
 		if(is_null($view))
 		{
-			$basePath = ($this->jversion == '15') ? $this->_basePath : $this->basePath;
+			$basePath = $this->basePath;
 			$tPath = dirname(__FILE__).'/tmpl';
 			
 			require_once('view.php');
@@ -227,7 +213,7 @@ class LiveUpdateController extends JController
 		{
 			require_once('model.php');
 			$model = new LiveUpdateModel();
-			$task = ($this->jversion == '15') ? $this->_task : $this->task;
+			$task = $this->task;
 			
 			$model->setState( 'task', $task );
 			

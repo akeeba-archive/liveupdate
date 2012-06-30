@@ -128,14 +128,9 @@ class LiveUpdateFetch extends JObject
 		}
 		
 		// Fetch information from the cache
-		if(version_compare(JVERSION, '1.6.0', 'ge')) {
-			$registry = $storage->getRegistry();
-			$lastCheck = $registry->get('lastcheck', 0);
-			$cachedData = $registry->get('updatedata', null);
-		} else {
-			$lastCheck = $storage->get('lastcheck', 0);
-			$cachedData = $storage->get('updatedata', null);
-		}
+		$registry = $storage->getRegistry();
+		$lastCheck = $registry->get('lastcheck', 0);
+		$cachedData = $registry->get('updatedata', null);
 		
 		if(is_string($cachedData)) {
 			$cachedData = trim($cachedData,'"');

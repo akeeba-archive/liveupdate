@@ -69,7 +69,11 @@ class LiveUpdateFetch extends JObject
 				if(empty($extInfo)) {
 					$mine = new JDate('2000-01-01 00:00:00');
 				} else {
-					$mine = new JDate($extInfo['date']);
+					try {
+						$mine = new JDate($extInfo['date']);
+					} catch(Exception $e) {
+						$mine = new JDate('2000-01-01 00:00:00');
+					}
 				}
 				
 				$theirs = new JDate($updateInfo->date);

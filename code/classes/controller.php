@@ -24,8 +24,6 @@ class LiveUpdateController extends JController
 	{
 		parent::__construct();
 
-		$this->basePath = $basePath;
-		
 		$this->registerDefaultTask('overview');
 	}
 	

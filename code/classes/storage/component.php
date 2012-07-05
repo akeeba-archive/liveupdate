@@ -9,7 +9,7 @@ defined('_JEXEC') or die();
 
 /**
  * Live Update Component Storage Class
- * Allows to store the update data to a component's parameters. This is the most reliable method. 
+ * Allows to store the update data to a component's parameters. This is the most reliable method.
  * Its configuration options are:
  * component	string	The name of the component which will store our data. If not specified the extension name will be used.
  * key			string	The name of the component parameter where the serialized data will be stored. If not specified "liveupdate" will be used.
@@ -18,7 +18,7 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 {
 	private static $component = null;
 	private static $key = null;
-	
+
 	public function load($config)
 	{
 		if(!array_key_exists('component', $config)) {
@@ -32,9 +32,7 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		} else {
 			self::$key = $config['key'];
 		}
-		
-		jimport('joomla.html.parameter');
-		jimport('joomla.application.component.helper');
+
 		// Not using JComponentHelper to avoid conflicts ;)
 		$db = JFactory::getDbo();
 		$sql = $db->getQuery(true)
@@ -45,33 +43,22 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		$db->setQuery($sql);
 		$rawparams = $db->loadResult();
 		$params = new JRegistry();
-		if(version_compare(JVERSION, '3.0.0', 'ge')) {
-			$params->loadString($rawparams);
-		} else {
-			$params->loadJSON($rawparams);
-		}
-		if(version_compare(JVERSION, '3.0.0', 'ge')) {
-			$data = $params->get(self::$key, '');
-		} else {
-			$data = $params->getValue(self::$key, '');
-		}
-				
+		$params->loadString($rawparams, 'JSON');
+
+		$data = $params->get(self::$key, '');
+
 		jimport('joomla.registry.registry');
 		self::$registry = new JRegistry('update');
-		
-		if(version_compare(JVERSION, '3.0.0', 'ge')) {
-			self::$registry->loadString($data, 'INI');
-		} else {
-			self::$registry->loadINI($data);
-		}
+
+		self::$registry->loadString($data, 'INI');
 	}
-	
+
 	public function save()
 	{
 		$data = self::$registry->toString('INI');
-		
+
 		$db = JFactory::getDBO();
-		
+
 		// An interesting discovery: if your component is manually updating its
 		// component parameters before Live Update is called, then calling Live
 		// Update will reset the modified component parameters because
@@ -94,18 +81,10 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		$db->setQuery($sql);
 		$rawparams = $db->loadResult();
 		$params = new JRegistry();
-		if(version_compare(JVERSION, '3.0.0', 'ge')) {
-			$params->loadString($rawparams);
-		} else {
-			$params->loadJSON($rawparams);
-		}
-		
-		if(version_compare(JVERSION, '3.0.0', 'ge')) {
-			$params->set(self::$key, $data);
-		} else {
-			$params->setValue(self::$key, $data);
-		}
-		
+		$params->loadString($rawparams, 'JSON');
+
+		$params->set(self::$key, $data);
+
 		// Joomla! 1.6
 		$data = $params->toString('JSON');
 		$sql = $db->getQuery(true)
@@ -117,4 +96,4 @@ class LiveUpdateStorageComponent extends LiveUpdateStorage
 		$db->setQuery($sql);
 		$db->query();
 	}
-} 
+}

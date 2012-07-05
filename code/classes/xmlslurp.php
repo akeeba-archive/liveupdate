@@ -98,7 +98,7 @@ class LiveUpdateXMLSlurp extends JObject
 		}
 
 		$data['version'] = $xml->version ? (string) $xml->version : '';
-		$data['date'] = $xml->version ? (string) $xml->version : '';
+		$data['date'] = $xml->creationDate ? (string) $xml->creationDate : '';
 		$data['xmlfile'] = $filename;
 
 		return $data;
@@ -176,7 +176,7 @@ class LiveUpdateXMLSlurp extends JObject
 		}
 
 		$data['version'] = $xml->version ? (string) $xml->version : '';
-		$data['date'] = $xml->version ? (string) $xml->version : '';
+		$data['date'] = $xml->creationDate ? (string) $xml->creationDate : '';
 		$data['xmlfile'] = $filename;
 
 		return $data;
@@ -226,7 +226,7 @@ class LiveUpdateXMLSlurp extends JObject
 		}
 
 		$data['version'] = $xml->version ? (string) $xml->version : '';
-		$data['date'] = $xml->version ? (string) $xml->version : '';
+		$data['date'] = $xml->creationDate ? (string) $xml->creationDate : '';
 		$data['xmlfile'] = $filename;
 
 		return $data;
@@ -280,7 +280,7 @@ class LiveUpdateXMLSlurp extends JObject
 		}
 
 		$data['version'] = $xml->version ? (string) $xml->version : '';
-		$data['date'] = $xml->version ? (string) $xml->version : '';
+		$data['date'] = $xml->creationDate ? (string) $xml->creationDate : '';
 		$data['xmlfile'] = $filename;
 
 		return $data;
@@ -333,7 +333,7 @@ class LiveUpdateXMLSlurp extends JObject
 		}
 
 		$data['version'] = $xml->version ? (string) $xml->version : '';
-		$data['date'] = $xml->version ? (string) $xml->version : '';
+		$data['date'] = $xml->creationDate ? (string) $xml->creationDate : '';
 		$data['xmlfile'] = $filename;
 
 		return $data;

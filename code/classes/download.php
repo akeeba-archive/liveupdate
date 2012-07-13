@@ -317,13 +317,13 @@ class LiveUpdateDownloadHelper
 		if ($ftpOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			if(version_compare(JVERSION,'3.0.0','ge')) {
+			if(version_compare(JVERSION,'3.0','ge')) {
 				$ftp = JClientFTP::getInstance(
 					$ftpOptions['host'], $ftpOptions['port'], null,
 					$ftpOptions['user'], $ftpOptions['pass']
 				);
 			} else {
-				if(version_compare(JVERSION,'3.0.0','ge')) {
+				if(version_compare(JVERSION,'3.0','ge')) {
 					$ftp = JClientFTP::getInstance(
 						$ftpOptions['host'], $ftpOptions['port'], null,
 						$ftpOptions['user'], $ftpOptions['pass']

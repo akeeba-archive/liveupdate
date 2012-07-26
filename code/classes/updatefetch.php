@@ -317,10 +317,11 @@ class LiveUpdateFetch extends JObject
 			return $ret;
 		}
 		
-		$ret['version'] = $iniData['version'];
-		$ret['date'] = $iniData['date'];
+		$ret['version'] = array_key_exists('version', $iniData) ? $iniData['version'] : '';
+		$ret['date'] = array_key_exists('date', $iniData) ? $iniData['date'] : '';
 		$config = LiveUpdateConfig::getInstance();
 		$auth = $config->getAuthorization();
+		if(!array_key_exists('link', $iniData)) $iniData['link'] = '';
 		$glue = strpos($iniData['link'],'?') === false ? '?' : '&';
 		$ret['downloadURL'] = $iniData['link'] . (empty($auth) ? '' : $glue.$auth);
 		if(array_key_exists('stability', $iniData)) {

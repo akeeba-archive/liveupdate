@@ -94,8 +94,10 @@ defined('_JEXEC') or die();
 
 					function showLiveUpdateReleaseNotes()
 					{
+						var liveupdateReleasenotes = $('liveupdate-releasenotes').clone();
+						
 						SqueezeBox.fromElement(
-							$('liveupdate-releasenotes'), {
+							liveupdateReleasenotes, {
 								handler: 'adopt',
 								size: {
 									x: 450,

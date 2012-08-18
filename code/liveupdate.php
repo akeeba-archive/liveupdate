@@ -101,43 +101,29 @@ class LiveUpdate
 		$updateInfo = self::getUpdateInformation();
 		if(!$updateInfo->supported) {
 			// Unsupported
-			if(version_compare(JVERSION, '3.0', 'ge')) {
-				$button['image'] = 'warning';
-			} else {
-				$button['class'] = 'liveupdate-icon-notsupported';
-				$button['image'] .= 'nosupport-32.png';
-			}
+			$button['class'] = 'liveupdate-icon-notsupported';
+			$button['image'] .= 'nosupport-32.png';
 			$button['text'] = JText::_('LIVEUPDATE_ICON_UNSUPPORTED');
 		} elseif($updateInfo->stuck) {
 			// Stuck
-			if(version_compare(JVERSION, '3.0', 'ge')) {
-				$button['image'] = 'cancel';
-			} else {
-				$button['class'] = 'liveupdate-icon-crashed';
-				$button['image'] .= 'nosupport-32.png';
-			}
+			$button['class'] = 'liveupdate-icon-crashed';
+			$button['image'] .= 'nosupport-32.png';
 			$button['text'] = JText::_('LIVEUPDATE_ICON_CRASHED');
 		} elseif($updateInfo->hasUpdates) {
 			// Has updates
-			if(version_compare(JVERSION, '3.0', 'ge')) {
-				$button['image'] = 'download';
-			} else {
-				$button['class'] = 'liveupdate-icon-updates';
-				$button['image'] .= 'update-32.png';
-			}
+			$button['class'] = 'liveupdate-icon-updates';
+			$button['image'] .= 'update-32.png';
 			$button['text'] = JText::_('LIVEUPDATE_ICON_UPDATES');
 		} else {
 			// Already in the latest release
-			if(version_compare(JVERSION, '3.0', 'ge')) {
-				$button['image'] = 'checkmark';
-			} else {
-				$button['class'] = 'liveupdate-icon-noupdates';
-				$button['image'] .= 'current-32.png';
-			}
+			$button['class'] = 'liveupdate-icon-noupdates';
+			$button['image'] .= 'current-32.png';
 			$button['text'] = JText::_('LIVEUPDATE_ICON_CURRENT');
 		}
 		if(version_compare(JVERSION, '2.5', 'ge')) {
-			return JHtml::_('icons.button', $button);
+			return '<div class="icon"><a href="'.$button['link'].'">'.
+			'<div style="text-align: center;"><img src="'.$button['image'].'" width="32" height="32" border="0" align="middle" style="float: none" /></div>'.
+			'<span class="'.$button['class'].'">'.$button['text'].'</span></a></div>';
 		} else {
 			return '<div class="icon"><a href="'.$button['link'].'">'.
 			'<div><img src="'.$button['image'].'" width="32" height="32" border="0" align="middle" style="float: none" /></div>'.

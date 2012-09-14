@@ -7,13 +7,27 @@
 	<copyright>Copyright (c)2011-2012 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU General Public License version 3, or later</license>
 	<creationDate>2011-05-26</creationDate>
-	<version>2.0</version>
+	<version>2.1</version>
 	<description>PLG_ONCECLICK_DESCRIPTION</description>
 	<files>
 		<filename plugin="oneclickaction">oneclickaction.php</filename>
+		
+		<folder>sql</folder>
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_system_oneclickaction.ini</language>
 		<language tag="en-GB">en-GB/en-GB.plg_system_oneclickaction.sys.ini</language>
 	</languages>
+	<install folder="sql">
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install/install.sql</file>
+			<file driver="mysqli" charset="utf8">sql/install/install.sql</file>
+		</sql>
+	</install>
+	<uninstall folder="sql">
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall/uninstall.sql</file>
+			<file driver="mysqli" charset="utf8">sql/uninstall/uninstall.sql</file>
+		</sql>
+	</uninstall>
 </extension>

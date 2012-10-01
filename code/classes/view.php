@@ -43,6 +43,15 @@ class LiveUpdateView extends JoomlaSucksView
 		JToolBarHelper::title($extInfo->title.' &ndash; '.JText::_('LIVEUPDATE_TASK_OVERVIEW'),'liveupdate');
 		JToolBarHelper::back('JTOOLBAR_BACK', 'index.php?option='.JRequest::getCmd('option',''));
 
+		if(version_compare(JVERSION, '3.0', 'ge')) {
+			$j3css = <<<ENDCSS
+div#toolbar div#toolbar-back button.btn span.icon-back::before {
+	content: "";
+}
+ENDCSS;
+			JFactory::getDocument()->addStyleDeclaration($j3css);
+		}
+		
 		switch(JRequest::getCmd('task','default'))
 		{
 			case 'startupdate':

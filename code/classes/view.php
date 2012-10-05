@@ -34,7 +34,7 @@ class LiveUpdateView extends JoomlaSucksView
 			$document->addStyleSheet($url, 'text/css');
 		}
 
-		$requeryURL = 'index.php?option='.JRequest::getCmd('option','').'&view='.JRequest::getCmd('view','liveupdate').'&force=1';
+		$requeryURL = rtrim(JURI::base(),'/').'/index.php?option='.JRequest::getCmd('option','').'&view='.JRequest::getCmd('view','liveupdate').'&force=1';
 		$this->assign('requeryURL', $requeryURL);
 
 		$model = $this->getModel();

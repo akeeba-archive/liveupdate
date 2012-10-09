@@ -152,7 +152,7 @@ class LiveUpdateModel extends JoomlaCompatModel
 		if(!JFile::exists($instModelFile)) return false;
 
 		require_once $instModelFile;
-		$model	= JModel::getInstance('Installer', 'AkeebaModel');
+		$model	= JoomlaCompatModel::getInstance('Installer', 'AkeebaModel');
 		$packageType = JInstallerHelper::detectType($tempdir);
 		$name = $model->getExtensionName($tempdir);
 

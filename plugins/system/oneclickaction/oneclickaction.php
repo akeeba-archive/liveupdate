@@ -153,7 +153,7 @@ class plgSystemOneclickaction extends JPlugin
 	 */
 	private static function _checkInstallation()
 	{
-		if(self::isMySQL()) return false;
+		if(!self::isMySQL()) return false;
 		
 		// @todo Move the SQL to the plugin package and do not run this on Joomla! 1.6 or later
 		$db = JFactory::getDBO();
@@ -168,7 +168,7 @@ CREATE TABLE `#__oneclickaction_actions` (
   `otp` char(64) NOT NULL,
   `expiry` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 ENDSQL;
 			$db->setQuery($sql);
 			$result = $db->query();

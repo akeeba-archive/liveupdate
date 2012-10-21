@@ -182,7 +182,7 @@ ENDSQL;
 		$db = JFactory::getDBO();
 		
 		$now = gmdate('Y-m-d H:i:s');
-		$now = $db->quote($now);
+		$now = $db->q($now);
 		
 		$sql = $db->getQuery(true)
 			->delete($db->qn('#__oneclickaction_actions'))

@@ -20,7 +20,7 @@ if(defined('PHP_VERSION')) {
 }
 if(!version_compare($version, '5.0.0', '>=')) return;
 
-jimport('joomla.application.plugin');
+JLoader::import('joomla.application.plugin');
 
 class plgSystemOneclickaction extends JPlugin
 {
@@ -56,7 +56,7 @@ class plgSystemOneclickaction extends JPlugin
 			
 			// Login the user
 			$user = JFactory::getUser($oca->userid);
-			jimport( 'joomla.user.authentication');
+			JLoader::import( 'joomla.user.authentication');
 			$app = JFactory::getApplication();
 			$authenticate = JAuthentication::getInstance();
 			$response = new JAuthenticationResponse();
@@ -74,7 +74,7 @@ class plgSystemOneclickaction extends JPlugin
 			JPluginHelper::importPlugin('user');
 			$options = array();
 			
-			jimport('joomla.user.helper');
+			JLoader::import('joomla.user.helper');
 			$results = $app->triggerEvent('onLoginUser', array((array)$response, $options));
 			
 			JFactory::getSession()->set('user', $user);
@@ -84,7 +84,7 @@ class plgSystemOneclickaction extends JPlugin
 				->delete($db->qn('#__oneclickaction_actions'))
 				->where($db->qn('actionurl').' = '.$db->q($oca->actionurl));
 			$db->setQuery($sql);
-			$db->query();
+			$db->execute();
 			
 			// Forward to the requested URL
 			$app->redirect($oca->actionurl);
@@ -122,7 +122,7 @@ class plgSystemOneclickaction extends JPlugin
 		if($actionsCount) return '';
 		
 		// Create a randomized OTP
-		jimport('joomla.user.helper');
+		JLoader::import('joomla.user.helper');
 		$expire = gmdate('Y-m-d H:i:s', time() + (int)$expireIn);
 		$otp = JUserHelper::genRandomPassword(64);
 		$otp = strtoupper($otp);
@@ -139,7 +139,7 @@ class plgSystemOneclickaction extends JPlugin
 		
 		// If a DB error occurs, return null
 		try {
-			$db->query();
+			$db->execute();
 		} catch (Exception $e) {
 			return null;
 		}
@@ -171,7 +171,7 @@ CREATE TABLE `#__oneclickaction_actions` (
 ) DEFAULT CHARSET=utf8;
 ENDSQL;
 			$db->setQuery($sql);
-			$result = $db->query();
+			$result = $db->execute();
 			return $result;
 		}
 		return true;
@@ -188,7 +188,7 @@ ENDSQL;
 			->delete($db->qn('#__oneclickaction_actions'))
 			->where($db->qn('expiry').' <= '.$now);
 		$db->setQuery($sql);
-		$db->query();
+		$db->execute();
 	}
 	
 	private static function isMySQL()

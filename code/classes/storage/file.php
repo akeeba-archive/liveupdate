@@ -16,6 +16,7 @@ defined('_JEXEC') or die();
 class LiveUpdateStorageFile extends LiveUpdateStorage
 {
 	private static $filename = null;
+	private static $extname = null;
 
 	public function load($config)
 	{
@@ -34,11 +35,15 @@ class LiveUpdateStorageFile extends LiveUpdateStorage
 		}
 
 		self::$filename = $filename;
+		self::$extname = $extname;
 
 		self::$registry = new JRegistry('update');
 
 		if(JFile::exists(self::$filename)) {
-			self::$registry->loadFile(self::$filename, 'PHP');
+			$options = array(
+				'class'	=> 'LiveUpdate' . ucwords($extname) . 'Cache'
+			);
+			self::$registry->loadFile(self::$filename, 'PHP', $options);
 		}
 	}
 
@@ -47,7 +52,10 @@ class LiveUpdateStorageFile extends LiveUpdateStorage
 		JLoader::import('joomla.registry.registry');
 		JLoader::import('joomla.filesystem.file');
 
-		$data = self::$registry->toString('PHP');
+		$options = array(
+			'class'	=> 'LiveUpdate' . ucwords(self::$extname) . 'Cache'
+		);
+		$data = self::$registry->toString('PHP', $options);
 		JFile::write(self::$filename, $data);
 	}
 }

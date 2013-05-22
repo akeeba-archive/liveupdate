@@ -16,28 +16,38 @@ defined('_JEXEC') or die();
 class LiveUpdateStorageFile extends LiveUpdateStorage
 {
 	private static $filename = null;
-	
+
 	public function load($config)
 	{
+		JLoader::import('joomla.registry.registry');
+		JLoader::import('joomla.filesystem.file');
+
 		$path = $config['path'];
 		$extname = $config['extensionName'];
-		$filename = "$path/$extname.updates.ini";
-		
+		$filename = "$path/$extname.updates.php";
+
+		// Kill old files
+		$filenameKill = "$path/$extname.updates.ini";
+		if (JFile::exists($filenameKill))
+		{
+			JFile::delete($filenameKill);
+		}
+
 		self::$filename = $filename;
-		
-		JLoader::import('joomla.registry.registry');
+
 		self::$registry = new JRegistry('update');
-		
-		JLoader::import('joomla.filesystem.file');
+
 		if(JFile::exists(self::$filename)) {
-			self::$registry->loadFile(self::$filename, 'INI');
+			self::$registry->loadFile(self::$filename, 'PHP');
 		}
 	}
-	
+
 	public function save()
 	{
+		JLoader::import('joomla.registry.registry');
 		JLoader::import('joomla.filesystem.file');
-		$data = self::$registry->toString('INI');
+
+		$data = self::$registry->toString('PHP');
 		JFile::write(self::$filename, $data);
 	}
-} 
+}

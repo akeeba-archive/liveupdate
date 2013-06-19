@@ -31,19 +31,19 @@ class plgSystemOneclickaction extends JPlugin
 	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
-		
+
 		// Only fire in administrator requests
 		if(in_array($app->getName(),array('administrator','admin'))) {
 			// Make sure it's an OneClickAction request
 			$otp = JRequest::getCmd('oneclickaction','');
 			if(empty($otp)) return;
-			
+
 			// Check that we do have a table!
 			self::_checkInstallation();
-			
+
 			// Perform expiration control
 			self::_expirationControl();
-			
+
 			// Make sure this OTP exists
 			$db = JFactory::getDBO();
 			$sql = $db->getQuery(true)
@@ -53,54 +53,50 @@ class plgSystemOneclickaction extends JPlugin
 			$db->setQuery($sql);
 			$oca = $db->loadObject();
 			if(empty($oca)) return;
-			
+
 			// Login the user
 			$user = JFactory::getUser($oca->userid);
 			JLoader::import( 'joomla.user.authentication');
 			$app = JFactory::getApplication();
 			$authenticate = JAuthentication::getInstance();
 			$response = new JAuthenticationResponse();
-			if(defined('JAUTHENTICATE_STATUS_SUCCESS')) {
-				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
-			} else {
-				$response->status = JAuthentication::STATUS_SUCCESS;
-			}
+			$response->status = JAuthentication::STATUS_SUCCESS;
 			$response->type = 'joomla';
 			$response->username = $user->username;
 			$response->email = $user->email;
 			$response->fullname = $user->name;
 			$response->error_message = '';
-			
+
 			JPluginHelper::importPlugin('user');
 			$options = array();
-			
+
 			JLoader::import('joomla.user.helper');
 			$results = $app->triggerEvent('onLoginUser', array((array)$response, $options));
-			
+
 			JFactory::getSession()->set('user', $user);
-			
+
 			// Delete all similar OCA records
 			$sql = $db->getQuery(true)
 				->delete($db->qn('#__oneclickaction_actions'))
 				->where($db->qn('actionurl').' = '.$db->q($oca->actionurl));
 			$db->setQuery($sql);
 			$db->execute();
-			
+
 			// Forward to the requested URL
 			$app->redirect($oca->actionurl);
 			$app->close();
 		}
 	}
-	
+
 	public function onOneClickActionEnabled()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Adds a new action URL and returns an one time password to access it. This
 	 * is meant to be callable directly.
-	 * 
+	 *
 	 * @param int $userid The user ID to log in when the generated OTP is used
 	 * @param string $actionurl The (relative) URL to redirect to, e.g. 'index.php?option=com_foobar'
 	 * @param int $expireIn For how many seconds is this OTP valid. Default: 86400 (24 hours)
@@ -109,9 +105,9 @@ class plgSystemOneclickaction extends JPlugin
 	{
 		self::_checkInstallation();
 		self::_expirationControl();
-		
+
 		$db = JFactory::getDBO();
-		
+
 		// Check that the action does not already exist
 		$sql = $db->getQuery(true)
 			->select('COUNT(*)')
@@ -120,13 +116,13 @@ class plgSystemOneclickaction extends JPlugin
 			->where($db->qn('userid').' = '.$db->q($userid));
 		$actionsCount = $db->loadResult();
 		if($actionsCount) return '';
-		
+
 		// Create a randomized OTP
 		JLoader::import('joomla.user.helper');
 		$expire = gmdate('Y-m-d H:i:s', time() + (int)$expireIn);
 		$otp = JUserHelper::genRandomPassword(64);
 		$otp = strtoupper($otp);
-		
+
 		// Insert the OTP and action to the database
 		$object = (object)array(
 			'userid'	=> $userid,
@@ -135,26 +131,26 @@ class plgSystemOneclickaction extends JPlugin
 			'expiry'	=> $expire,
 		);
 		$db->insertObject('#__oneclickaction_actions', $object);
-		
-		
+
+
 		// If a DB error occurs, return null
 		try {
 			$db->execute();
 		} catch (Exception $e) {
 			return null;
 		}
-		
+
 		// All OK, return the OTP
 		return $otp;
 	}
-	
+
 	/**
 	 * Checks that the installation is complete, i.e. the table is created.
 	 */
 	private static function _checkInstallation()
 	{
 		if(!self::isMySQL()) return false;
-		
+
 		// @todo Move the SQL to the plugin package and do not run this on Joomla! 1.6 or later
 		$db = JFactory::getDBO();
 		$db->setQuery('DESCRIBE #__oneclickaction_actions');
@@ -176,21 +172,21 @@ ENDSQL;
 		}
 		return true;
 	}
-	
+
 	private static function _expirationControl()
 	{
 		$db = JFactory::getDBO();
-		
+
 		$now = gmdate('Y-m-d H:i:s');
 		$now = $db->q($now);
-		
+
 		$sql = $db->getQuery(true)
 			->delete($db->qn('#__oneclickaction_actions'))
 			->where($db->qn('expiry').' <= '.$now);
 		$db->setQuery($sql);
 		$db->execute();
 	}
-	
+
 	private static function isMySQL()
 	{
 		$db = JFactory::getDbo();

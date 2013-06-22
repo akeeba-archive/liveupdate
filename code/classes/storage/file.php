@@ -40,10 +40,14 @@ class LiveUpdateStorageFile extends LiveUpdateStorage
 		self::$registry = new JRegistry('update');
 
 		if(JFile::exists(self::$filename)) {
-			$options = array(
-				'class'	=> 'LiveUpdate' . ucwords($extname) . 'Cache'
-			);
-			self::$registry->loadFile(self::$filename, 'PHP', $options);
+			// Workaround for broken JRegistryFormatPHP API...
+			@include_once self::$filename;
+			$className = 'LiveUpdate' . ucwords($extname) . 'Cache';
+			if (class_exists($className))
+			{
+				$object = new $className;
+				self::$registry->loadObject($object);
+			}
 		}
 	}
 

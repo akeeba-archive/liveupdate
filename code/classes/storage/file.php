@@ -1,10 +1,10 @@
 <?php
+
 /**
  * @package LiveUpdate
  * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU LGPLv3 or later <http://www.gnu.org/copyleft/lesser.html>
  */
-
 defined('_JEXEC') or die();
 
 /**
@@ -15,17 +15,28 @@ defined('_JEXEC') or die();
  */
 class LiveUpdateStorageFile extends LiveUpdateStorage
 {
-	private static $filename = null;
-	private static $extname = null;
+	private $filename = null;
+	private $extname = null;
+
+	public function __construct()
+	{
+	}
 
 	public function load($config)
 	{
 		JLoader::import('joomla.registry.registry');
 		JLoader::import('joomla.filesystem.file');
 
-		$path = $config['path'];
-		$extname = $config['extensionName'];
-		$filename = "$path/$extname.updates.php";
+		if (array_key_exists('path', $config))
+		{
+			$path	= $config['path'];
+		}
+		else
+		{
+			$path	= JPATH_CACHE;
+		}
+		$extname	= $config['extensionName'];
+		$filename	= "$path/$extname.updates.php";
 
 		// Kill old files
 		$filenameKill = "$path/$extname.updates.ini";
@@ -34,19 +45,22 @@ class LiveUpdateStorageFile extends LiveUpdateStorage
 			JFile::delete($filenameKill);
 		}
 
-		self::$filename = $filename;
-		self::$extname = $extname;
+		$this->filename	 = $filename;
+		$this->extname	 = $extname;
 
-		self::$registry = new JRegistry('update');
+		$this->registry = new JRegistry('update');
 
-		if(JFile::exists(self::$filename)) {
+		if (JFile::exists($this->filename))
+		{
 			// Workaround for broken JRegistryFormatPHP API...
-			@include_once self::$filename;
+			@include_once $this->filename;
+
 			$className = 'LiveUpdate' . ucwords($extname) . 'Cache';
+
 			if (class_exists($className))
 			{
 				$object = new $className;
-				self::$registry->loadObject($object);
+				$this->registry->loadObject($object);
 			}
 		}
 	}
@@ -57,9 +71,10 @@ class LiveUpdateStorageFile extends LiveUpdateStorage
 		JLoader::import('joomla.filesystem.file');
 
 		$options = array(
-			'class'	=> 'LiveUpdate' . ucwords(self::$extname) . 'Cache'
+			'class' => 'LiveUpdate' . ucwords($this->extname) . 'Cache'
 		);
-		$data = self::$registry->toString('PHP', $options);
-		JFile::write(self::$filename, $data);
+		$data	 = $this->registry->toString('PHP', $options);
+		JFile::write($this->filename, $data);
 	}
+
 }

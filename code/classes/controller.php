@@ -185,8 +185,8 @@ class LiveUpdateController extends JoomlaCompatController
 
 		// Assign the FTP credentials from the request, or return TRUE if they are required
 		JLoader::import('joomla.client.helper');
-		$ftp	= $this->setCredentialsFromRequest('ftp');
-		$view->assignRef('ftp', $ftp);
+		$ftp = $this->setCredentialsFromRequest('ftp');
+		$view->ftp = &$ftp;
 
 		// Set the layout
 		$view->setLayout($viewLayout);

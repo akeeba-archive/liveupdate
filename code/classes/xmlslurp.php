@@ -48,9 +48,13 @@ class LiveUpdateXMLSlurp extends JObject
 				return $this->getPackageData($extensionName, $xmlName);
 				break;
 			default:
-				if(strtolower(substr($extensionName, 0, 4)) == 'file') {
-					return $this->getPackageData($extensionName, $xmlName);
-				} else {
+
+				if(strtolower(substr($extensionName, 0, 4)) == 'file')
+                {
+					return $this->getFileData($extensionName, $xmlName);
+				}
+                else
+                {
 					return array('version'=>'', 'date'=>'');
 				}
 		}
@@ -338,6 +342,69 @@ class LiveUpdateXMLSlurp extends JObject
 
 		return $data;
 	}
+
+    /**
+     * This method parses the manifest information of file extensions.
+     *
+     * @param  string   $extensionName
+     * @param  string   $xmlName
+     *
+     * @return array
+     */
+    private function getFileData($extensionName, $xmlName)
+    {
+        $extensionName = strtolower($extensionName);
+        $altExtensionName = substr($extensionName,4);
+
+        JLoader::import('joomla.filesystem.folder');
+        JLoader::import('joomla.filesystem.file');
+
+        $path = JPATH_ADMINISTRATOR.'/manifests/files';
+
+        $filename = "$path/$xmlName";
+
+        if(!JFile::exists($filename))
+        {
+            $filename = "$path/$extensionName.xml";
+        }
+
+        if(!JFile::exists($filename))
+        {
+            $filename = "$path/$altExtensionName.xml";
+        }
+
+        if(!JFile::exists($filename))
+        {
+            return array('version' => '', 'date' => '');
+        }
+
+        if(empty($filename))
+        {
+            return array('version' => '', 'date' => '', 'xmlfile' => '');
+        }
+
+        try
+        {
+            $xml = new SimpleXMLElement($filename, LIBXML_NONET, true);
+        }
+        catch(Exception $e)
+        {
+            return array('version' => '', 'date' => '', 'xmlfile' => '');
+        }
+
+        // Need to check for extension (since 1.6) and install (supported through 2.5)
+        if ($xml->getName() != 'extension')
+        {
+            unset($xml);
+            return array('version' => '', 'date' => '', 'xmlfile' => '');
+        }
+
+        $data['version'] = $xml->version        ? (string) $xml->version        : '';
+        $data['date']    = $xml->creationDate   ? (string) $xml->creationDate   : '';
+        $data['xmlfile'] = $filename;
+
+        return $data;
+    }
 
 	/**
 	 * Scans a directory for XML manifest files. The first XML file to be a

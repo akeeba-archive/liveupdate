@@ -42,16 +42,16 @@ class LiveUpdateXMLSlurp extends JObject
 				return $this->getTemplateData($extensionName, $xmlName);
 				break;
 			case 'pkg':
-				return $this->getPackageData($extensionName, $xmlName);
+				return $this->getGenericManifest($extensionName, $xmlName, 'packages');
 				break;
 			case 'lib':
-				return $this->getPackageData($extensionName, $xmlName);
+				return $this->getGenericManifest($extensionName, $xmlName, 'libraries');
 				break;
 			default:
 
 				if(strtolower(substr($extensionName, 0, 4)) == 'file')
                 {
-					return $this->getFileData($extensionName, $xmlName);
+					return $this->getGenericManifest($extensionName, $xmlName, 'files');
 				}
                 else
                 {
@@ -290,76 +290,25 @@ class LiveUpdateXMLSlurp extends JObject
 		return $data;
 	}
 
-	/**
-	 * This method parses the manifest information of package, library and file
-	 * extensions. All of those extensions do not store their manifests in the
-	 * extension's directory, but in administrator/manifests. Kudos to @mbabker
-	 * for sharing this method!
-	 *
-	 * @param string $extensionName
-	 * @param string $xmlName
-	 * @return type
-	 */
-	private function getPackageData($extensionName, $xmlName)
-	{
-		$extensionName = strtolower($extensionName);
-		$altExtensionName = substr($extensionName,4);
-
-		JLoader::import('joomla.filesystem.folder');
-		JLoader::import('joomla.filesystem.file');
-		$path = JPATH_ADMINISTRATOR.'/manifests/packages';
-
-		$filename = "$path/$xmlName";
-		if(!JFile::exists($filename)) {
-			$filename = "$path/$extensionName.xml";
-		}
-		if(!JFile::exists($filename)) {
-			$filename = "$path/$altExtensionName.xml";
-		}
-		if(!JFile::exists($filename)) {
-			return array('version' => '', 'date' => '');
-		}
-
-		if(empty($filename)) {
-			return array('version' => '', 'date' => '', 'xmlfile' => '');
-		}
-
-		try {
-			$xml = new SimpleXMLElement($filename, LIBXML_NONET, true);
-		} catch(Exception $e) {
-			return array('version' => '', 'date' => '', 'xmlfile' => '');
-		}
-
-		// Need to check for extension (since 1.6) and install (supported through 2.5)
-		if ($xml->getName() != 'extension') {
-			unset($xml);
-			return array('version' => '', 'date' => '', 'xmlfile' => '');
-		}
-
-		$data['version'] = $xml->version ? (string) $xml->version : '';
-		$data['date'] = $xml->creationDate ? (string) $xml->creationDate : '';
-		$data['xmlfile'] = $filename;
-
-		return $data;
-	}
-
     /**
-     * This method parses the manifest information of file extensions.
+     * Generic function to get a manifest file stored inside the administrator/manifests folder.
+     * At the moment this applies to files, packages and libraries extensions.
      *
-     * @param  string   $extensionName
-     * @param  string   $xmlName
+     * @param   string  $extensionName      Extension name
+     * @param   string  $xmlName            XML filename
+     * @param   string  $folder             Folder inside the manifests one
      *
      * @return array
      */
-    private function getFileData($extensionName, $xmlName)
+    private function getGenericManifest($extensionName, $xmlName, $folder)
     {
-        $extensionName = strtolower($extensionName);
+        $extensionName    = strtolower($extensionName);
         $altExtensionName = substr($extensionName,4);
 
         JLoader::import('joomla.filesystem.folder');
         JLoader::import('joomla.filesystem.file');
 
-        $path = JPATH_ADMINISTRATOR.'/manifests/files';
+        $path = JPATH_ADMINISTRATOR.'/manifests/'.$folder;
 
         $filename = "$path/$xmlName";
 
@@ -392,7 +341,6 @@ class LiveUpdateXMLSlurp extends JObject
             return array('version' => '', 'date' => '', 'xmlfile' => '');
         }
 
-        // Need to check for extension (since 1.6) and install (supported through 2.5)
         if ($xml->getName() != 'extension')
         {
             unset($xml);

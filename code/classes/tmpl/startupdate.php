@@ -10,7 +10,9 @@ defined('_JEXEC') or die();
 
 <div class="liveupdate">
 	<div class="liveupdate-ftp">
-		<p><?php echo JText::_('LIVEUPDATE_FTP_REQUIRED')?></p>
+		<p class="alert alert-info">
+			<?php echo JText::_('LIVEUPDATE_FTP_REQUIRED')?>
+		</p>
 		<form name="adminForm" id="adminForm" action="index.php" method="get">
 			<input name="option" value="<?php echo JRequest::getCmd('option','')?>" type="hidden" />
 			<input name="view" value="<?php echo JRequest::getCmd('view','liveupdate')?>" type="hidden" />
@@ -36,9 +38,14 @@ defined('_JEXEC') or die();
 								<input type="password" id="password" name="password" class="input_box" size="70" value="" />
 							</td>
 						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<input type="submit" class="btn btn-primary" value="<?php echo JText::_('LIVEUPDATE_DOWNLOAD_AND_INSTALL'); ?>" />
+							</td>
+						</tr>
 					</tbody>				
 				</table>
-				<input type="submit" value="<?php echo JText::_('LIVEUPDATE_DOWNLOAD_AND_INSTALL'); ?>" />				
 			</fieldset>
 		</form>
 	</div>

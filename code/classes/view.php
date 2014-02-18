@@ -27,7 +27,7 @@ class LiveUpdateView extends JoomlaCompatView
 		// Load the CSS
 		$config = LiveUpdateConfig::getInstance();
 		$this->config = $config;
-		if(!$config->addMedia()) {
+		if(!$config->addMedia() && !defined('AKEEBASTRAPPER_VERSION') && version_compare(JVERSION, '3.0', 'lt')) {
 			// No custom CSS overrides were set; include our own
 			$document = JFactory::getDocument();
 			$url = JURI::base().'/components/'.JRequest::getCmd('option','').'/liveupdate/assets/liveupdate.css';

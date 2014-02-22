@@ -2,25 +2,17 @@
 /**
  * @package LiveUpdate
  * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
- * @license GNU LGPLv3 or later <http://www.gnu.org/copyleft/lesser.html>
+ * @license GNU GPLv3 or later <https://www.gnu.org/licenses/gpl.html>
  */
 
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.application.component.controller');
 
-if(!class_exists('JoomlaCompatController')) {
-	if(interface_exists('JController')) {
-		abstract class JoomlaCompatController extends JControllerLegacy {}
-	} else {
-		class JoomlaCompatController extends JController {}
-	}
-}
-
 /**
  * The Live Update MVC controller
  */
-class LiveUpdateController extends JoomlaCompatController
+class LiveUpdateController extends JControllerLegacy
 {
 	/**
 	 * Object contructor 
@@ -75,7 +67,27 @@ class LiveUpdateController extends JoomlaCompatController
 	{
 		$ftp = $this->setCredentialsFromRequest('ftp');
 		$model = $this->getThisModel();
-		$result = $model->download();
+
+		try
+		{
+			$result = $model->download();
+		}
+		catch (LiveUpdateDownloadException $e)
+		{
+			$result = false;
+
+			// If we are here and require authentication, the Download ID given is wrong. We have to tell the user!
+			/** @var LiveUpdateAbstractConfig $config */
+			$config = LiveUpdateConfig::getInstance();
+
+			if ($config->requiresAuthorization())
+			{
+				$msg = JText::_('LIVEUPDATE_DOWNLOAD_FAILED_WRONGDOWNLOADID');
+				$this->setRedirect('index.php?option='.JRequest::getCmd('option','').'&view='.JRequest::getCmd('view','liveupdate').'&task=overview', $msg, 'error');
+				return;
+			}
+		}
+
 		if(!$result) {
 			// Download failed
 			$msg = JText::_('LIVEUPDATE_DOWNLOAD_FAILED');

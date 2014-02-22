@@ -2,25 +2,17 @@
 /**
  * @package LiveUpdate
  * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
- * @license GNU LGPLv3 or later <http://www.gnu.org/copyleft/lesser.html>
+ * @license GNU GPLv3 or later <https://www.gnu.org/licenses/gpl.html>
  */
 
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.application.component.view');
 
-if(!class_exists('JoomlaCompatView')) {
-	if(interface_exists('JView')) {
-		abstract class JoomlaCompatView extends JViewLegacy {}
-	} else {
-		class JoomlaCompatView extends JView {}
-	}
-}
-
 /**
  * The Live Update MVC view
  */
-class LiveUpdateView extends JoomlaCompatView
+class LiveUpdateView extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

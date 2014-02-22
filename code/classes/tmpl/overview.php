@@ -2,7 +2,7 @@
 /**
  * @package   LiveUpdate
  * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
- * @license   GNU LGPLv3 or later <http://www.gnu.org/copyleft/lesser.html>
+ * @license   GNU GPLv3 or later <https://www.gnu.org/licenses/gpl.html>
  */
 
 defined('_JEXEC') or die();
@@ -70,8 +70,30 @@ JHtml::_('behavior.modal');
 		$class2 = $this->updateInfo->hasUpdates ? 'alert-warning' : 'alert-success';
 		$iconClass = $this->updateInfo->hasUpdates ? 'icon-warning' : 'icon-ok';
 		$tag = $this->updateInfo->hasUpdates ? 'hasupdates' : 'noupdates';
-		$auth = $this->config->getAuthorization();
-		$auth = empty($auth) ? '' : '?' . $auth;
+
+		// Add the authentication string to the URL
+		$url = $this->updateInfo->downloadURL;
+		/** @var LiveUpdateAbstractConfig $config */
+		$config = LiveUpdateAbstractConfig::getInstance();
+
+		if ($config->requiresAuthorization())
+		{
+			$authParams = $config->getAuthorizationParameters();
+
+			if (!empty($authParams))
+			{
+				JLoader::import('joomla.uri.uri');
+				$uri = new JUri($url);
+
+				foreach ($authParams as $k => $v)
+				{
+					$uri->setVar($k, $v);
+				}
+
+				$url = $uri->toString();
+			}
+		}
+
 		?>
 		<?php if ($this->needsAuth): ?>
 			<p class="liveupdate-error-needsauth alert alert-error">
@@ -102,7 +124,7 @@ JHtml::_('behavior.modal');
 				<tr class="liveupdate-row row1">
 					<td class="liveupdate-label"><?php echo JText::_('LIVEUPDATE_DOWNLOADURL') ?></td>
 					<td class="liveupdate-data"><a
-							href="<?php echo $this->updateInfo->downloadURL . $auth ?>"><?php echo $this->escape($this->updateInfo->downloadURL) ?></a></td>
+							href="<?php echo $url ?>"><?php echo $this->escape($url) ?></a></td>
 				</tr>
 				<?php if (!empty($this->updateInfo->releasenotes) || !empty($this->updateInfo->infoURL)): ?>
 					<tr class="liveupdate-row row1">

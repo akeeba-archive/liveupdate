@@ -153,9 +153,9 @@ class LiveUpdateDownloadHelper
 	 * Downloads the contents of a URL and writes them to disk (if $fp is not null)
 	 * or returns them as a string (if $fp is null) using cURL
 	 *
-	 * @param   string    $url  The URL to download from
-	 * @param   resource  $fp   The file pointer to download to. Omit to return the contents.
-	 * @param   boolean   $nofollow  Should we ignore 30x redirects?
+	 * @param   string   $url      The URL to download from
+	 * @param   resource $fp       The file pointer to download to. Omit to return the contents.
+	 * @param   boolean  $nofollow Should we ignore 30x redirects?
 	 *
 	 * @return  boolean|string  False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
 	 *
@@ -352,14 +352,14 @@ class LiveUpdateDownloadHelper
 		else
 		{
 			$http_code = 200;
-			$nLines = count( $http_response_header );
+			$nLines = count($http_response_header);
 
-			for ( $i = $nLines-1; $i >= 0; $i-- )
+			for ($i = $nLines - 1; $i >= 0; $i--)
 			{
 				$line = $http_response_header[$i];
-				if ( strncasecmp( "HTTP", $line, 4 ) == 0 )
+				if (strncasecmp("HTTP", $line, 4) == 0)
 				{
-					$response = explode( ' ', $line );
+					$response = explode(' ', $line);
 					$http_code = $response[1];
 					break;
 				}

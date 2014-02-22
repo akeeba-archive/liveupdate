@@ -149,14 +149,14 @@ abstract class LiveUpdateAbstractConfig extends JObject
 		if (!empty($this->_downloadID))
 		{
 			$ret = array(
-				'dlid'	=> $this->_downloadID
+				'dlid' => $this->_downloadID
 			);
 		}
 		if (!empty($this->_username) && !empty($this->_password))
 		{
 			$ret = array(
-				'username'	=> $this->_username,
-				'password'	=> $this->_password,
+				'username' => $this->_username,
+				'password' => $this->_password,
 			);
 		}
 

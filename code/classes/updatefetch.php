@@ -153,7 +153,7 @@ class LiveUpdateFetch extends JObject
 	 * Get the latest version (update) information, either from the cache or
 	 * from the update server.
 	 *
-	 * @param   boolean  $force   Set to true to force fetching fresh data from the server
+	 * @param   boolean $force Set to true to force fetching fresh data from the server
 	 *
 	 * @return  stdClass  The update information, in object format
 	 */
@@ -275,6 +275,7 @@ class LiveUpdateFetch extends JObject
 
 	/**
 	 * Fetches update information from the server using cURL
+	 *
 	 * @return string The raw server data
 	 */
 	private function fetchCURL()
@@ -305,6 +306,7 @@ class LiveUpdateFetch extends JObject
 	/**
 	 * Fetches update information from the server using file_get_contents, which internally
 	 * uses URL fopen() wrappers.
+	 *
 	 * @return string The raw server data
 	 */
 	private function fetchFOPEN()

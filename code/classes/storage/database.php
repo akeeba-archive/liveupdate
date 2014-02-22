@@ -79,8 +79,8 @@ class LiveUpdateStorageDatabase extends LiveUpdateStorage
 	public function save()
 	{
 		$data = (object)array(
-			$this->keyField		=> $this->keyValue,
-			$this->valueField	=> $this->registry->toString('INI')
+			$this->keyField   => $this->keyValue,
+			$this->valueField => $this->registry->toString('INI')
 		);
 
 		$db = JFactory::getDBO();
@@ -100,5 +100,4 @@ class LiveUpdateStorageDatabase extends LiveUpdateStorage
 			$db->updateObject($this->tableName, $data, $this->keyField);
 		}
 	}
-
 }

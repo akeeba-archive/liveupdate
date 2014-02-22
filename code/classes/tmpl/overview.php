@@ -131,7 +131,8 @@ JHtml::_('behavior.modal');
 						<td class="liveupdate-label"><?php echo JText::_('LIVEUPDATE_RELEASEINFO') ?></td>
 						<td class="liveupdate-data">
 							<?php if ($this->updateInfo->releasenotes): ?>
-								<a href="#" id="btnLiveUpdateReleaseNotes"><?php echo JText::_('LIVEUPDATE_RELEASENOTES') ?></a>
+								<a href="#"
+								   id="btnLiveUpdateReleaseNotes"><?php echo JText::_('LIVEUPDATE_RELEASENOTES') ?></a>
 								<?php
 								JHTML::_('behavior.framework');
 								JHTML::_('behavior.modal');

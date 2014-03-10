@@ -38,11 +38,11 @@ class LiveUpdateView extends JViewLegacy
 
 		if (version_compare(JVERSION, '3.0', 'ge'))
 		{
-			$j3css = <<<ENDCSS
+			$j3css = <<<CSS
 div#toolbar div#toolbar-back button.btn span.icon-back::before {
 	content: "";
 }
-ENDCSS;
+CSS;
 			JFactory::getDocument()->addStyleDeclaration($j3css);
 		}
 

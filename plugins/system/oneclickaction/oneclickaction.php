@@ -156,7 +156,7 @@ class plgSystemOneclickaction extends JPlugin
 		$db->setQuery('DESCRIBE #__oneclickaction_actions');
 		$test = $db->loadResult();
 		if(is_null($test) || ($db->getError())) {
-			$sql = <<<ENDSQL
+			$sql = <<<SQL
 CREATE TABLE `#__oneclickaction_actions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) unsigned NOT NULL,
@@ -165,7 +165,7 @@ CREATE TABLE `#__oneclickaction_actions` (
   `expiry` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;
-ENDSQL;
+SQL;
 			$db->setQuery($sql);
 			$result = $db->execute();
 			return $result;

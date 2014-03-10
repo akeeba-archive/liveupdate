@@ -137,26 +137,26 @@ JHtml::_('behavior.modal');
 								JHTML::_('behavior.framework');
 								JHTML::_('behavior.modal');
 
-								$script = <<<ENDSCRIPT
-							window.addEvent( 'domready' ,  function() {
-								$('btnLiveUpdateReleaseNotes').addEvent('click', showLiveUpdateReleaseNotes);
-							});
+								$script = <<<JS
+window.addEvent( 'domready' ,  function() {
+	$('btnLiveUpdateReleaseNotes').addEvent('click', showLiveUpdateReleaseNotes);
+});
 
-							function showLiveUpdateReleaseNotes()
-							{
-								var liveupdateReleasenotes = $('liveupdate-releasenotes').clone();
+function showLiveUpdateReleaseNotes()
+{
+	var liveupdateReleasenotes = $('liveupdate-releasenotes').clone();
 
-								SqueezeBox.fromElement(
-									liveupdateReleasenotes, {
-										handler: 'adopt',
-										size: {
-											x: 450,
-											y: 350
-										}
-									}
-								);
-							}
-ENDSCRIPT;
+	SqueezeBox.fromElement(
+		liveupdateReleasenotes, {
+			handler: 'adopt',
+			size: {
+				x: 450,
+				y: 350
+			}
+		}
+	);
+}
+JS;
 								$document = JFactory::getDocument();
 								$document->addScriptDeclaration($script, 'text/javascript');
 								?>

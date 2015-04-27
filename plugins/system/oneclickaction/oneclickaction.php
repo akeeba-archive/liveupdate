@@ -35,7 +35,7 @@ class plgSystemOneclickaction extends JPlugin
 		// Only fire in administrator requests
 		if(in_array($app->getName(),array('administrator','admin'))) {
 			// Make sure it's an OneClickAction request
-			$otp = JRequest::getCmd('oneclickaction','');
+			$otp = JFactory::getApplication()->input->getCmd('oneclickaction','');
 			if(empty($otp)) return;
 
 			// Check that we do have a table!

@@ -18,7 +18,7 @@ if(defined('PHP_VERSION')) {
 } else {
 	$version = '5.0.0'; // all bets are off!
 }
-if(!version_compare($version, '5.0.0', '>=')) return;
+if(!version_compare($version, '5.3.4', '>=')) return;
 
 JLoader::import('joomla.application.plugin');
 

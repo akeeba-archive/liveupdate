@@ -1,11 +1,11 @@
 <?php
 /**
  * @package LiveUpdate
- * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU GPLv3 or later <https://www.gnu.org/licenses/gpl.html>
  *
  * One-click updater for Joomla! extensions
- * Copyright (C) 2011-2013  Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * Copyright (C) 2011-2016  Nicholas K. Dionysopoulos / AkeebaBackup.com
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

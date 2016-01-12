@@ -1,6 +1,6 @@
 ==============================================================================
 Akeeba Live Update - One-click updates for Joomla! extensions
-Copyright © 2011-2014 Nicholas K. Dionysopoulos / Akeeba Ltd
+Copyright © 2011-2016 Nicholas K. Dionysopoulos / Akeeba Ltd
 
 Live Update is a sub-component to assist you in providing one-click updates
 for your Joomla! 2.5 and Joomla! 3.x extensions. It is licensed under the
